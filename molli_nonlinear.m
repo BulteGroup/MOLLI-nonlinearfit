@@ -177,9 +177,9 @@ colorbar
 
 dicomt1map = uint16(reshape(t1map,[nbrow nbcol 1 nbslice])); % reshape undoes the squeeze, which removed the colour dimension
 
-output_dcm = [loadpath '_MOLLI_T1_map.dcm'];
+output_dcm = [dirname '_MOLLI_T1_map.dcm'];
 % output_nii = [loadpath '_MOLLI_T1_map.nii.gz'];
-cd(loadpath)
+cd(dirname)
 dicomwrite(dicomt1map, output_dcm, metadata(1), 'CreateMode', 'Copy'); % save as a dicom, gets metadata from another dicom file
 % niftiwrite(dicomt1map, output_nii, 'Compressed', true);
 
