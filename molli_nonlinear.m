@@ -166,20 +166,23 @@ for i=1:nbvoxels
     end
 end
 
-t1map = fliplr(rot90(reshape(t1vec,nbrow,nbcol,nbslice),3));
+t1map = reshape(t1vec,nbrow,nbcol,nbslice);
 
-% print output to screen limited to 3000ms max
-figure;
-clims = [0 3000];
-colormap jet
-imagesc(t1map(:,:,nbslice),clims); % print T1 map to screen
+figure
+imagesc(t1map);
+title(sprintf('%s-%d.png',dirName,i))
+caxis([0,3500]);
 colorbar
+axis off
+daspect([1 1 1])
+saveas(gcf,sprintf('%s.png',dirName))
+
 
 dicomt1map = uint16(reshape(t1map,[nbrow nbcol 1 nbslice])); % reshape undoes the squeeze, which removed the colour dimension
 
-output_dcm = [dirname '_MOLLI_T1_map.dcm'];
+output_dcm = [dirName, '_MOLLI_T1_map.dcm'];
 % output_nii = [loadpath '_MOLLI_T1_map.nii.gz'];
-cd(dirname)
+%cd(dirname)
 dicomwrite(dicomt1map, output_dcm, metadata(1), 'CreateMode', 'Copy'); % save as a dicom, gets metadata from another dicom file
 % niftiwrite(dicomt1map, output_nii, 'Compressed', true);
 
