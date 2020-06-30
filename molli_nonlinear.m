@@ -2,12 +2,11 @@
 % 
 % Daniel Bulte, IBME, University of Oxford, July 2019
 %%
-
 % this version uses the absolute value form of the model to fit the data,
 % and uses a value of 300 in the 11th volume as a noise threshold (any
 % voxel <300 in volume 11 is set to zero in the T1 map)
 
-% edited by E Bluemke 2020 
+% Edited by E Bluemke July 2020 (questions? emma.bluemke@new.ox.ac.uk)
 
 clear all
 close all
@@ -141,7 +140,7 @@ for z=1:nbslice
         end
         indechs = indechs + 1;
         end
-    end
+    end 
 end
 
 
@@ -153,14 +152,14 @@ molli = fittype('abs(Axy - Bxy * exp(-tinv/tonestar))','dependent',{'y'},...
 
 for i=1:nbvoxels
     recover = slope(:,i);
- 
+    i
     if recover(1)~=0
                 f = fit(tinv,recover,molli); 
                 coeffvals = coeffvalues(f);
                 Tonestar =  coeffvals(3);
                 t1vec(i)= Tonestar*(coeffvals(2)/coeffvals(1)-1); % LL correction
 
-            if (isnan(t1vec(i)) || t1vec(i)<0 || isinf(t1vec(i) || t1vec(i)>5000)) % remove rubbish values, limit to 5sec max
+            if (isnan(t1vec(i)) || t1vec(i)<0 || isinf(t1vec(i) || t1vec(i)>8000)) % remove rubbish values, limit to 5sec max
                     t1vec(i)=0;
             end
     end
@@ -186,6 +185,6 @@ output_dcm = [dirName, '_MOLLI_T1_map.dcm'];
 dicomwrite(dicomt1map, output_dcm, metadata(1), 'CreateMode', 'Copy'); % save as a dicom, gets metadata from another dicom file
 % niftiwrite(dicomt1map, output_nii, 'Compressed', true);
 
-
+beep
 %% end
 
