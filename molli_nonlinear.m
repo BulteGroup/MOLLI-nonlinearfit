@@ -96,26 +96,25 @@ for k = 1:nbseries
 	dataTmp = image;
 	dataTmp = double(squeeze(dataTmp));	
 	for ss = 1:nbslice 
-		data(:,:,ss,k) = dataTmp(:,:,ss); 
+		dataTmp2(:,:,ss,k) = dataTmp(:,:,ss); 
     end
 end 
-size(data)
 
-% for k = 1:nbseries
-% 	dataTmp = d(k).imData;
-%         data(:,:,:,1) = dataTmp(:,:,:,1);
-%         data(:,:,:,2) = dataTmp(:,:,:,4);
-%         data(:,:,:,3) = dataTmp(:,:,:,7);
-%         data(:,:,:,4) = dataTmp(:,:,:,2);
-%         data(:,:,:,5) = dataTmp(:,:,:,5);
-%         data(:,:,:,6) = dataTmp(:,:,:,8);
-%         data(:,:,:,7) = dataTmp(:,:,:,3);  
-%         data(:,:,:,8) = dataTmp(:,:,:,6);
-%         data(:,:,:,9) = dataTmp(:,:,:,9);
-%         data(:,:,:,10) = dataTmp(:,:,:,10);
-%         data(:,:,:,11) = dataTmp(:,:,:,11);
-% end 
-%         
+
+data(:,:,:,1) = dataTmp2(:,:,:,1);
+data(:,:,:,2) = dataTmp2(:,:,:,4);
+data(:,:,:,3) = dataTmp2(:,:,:,7);
+data(:,:,:,4) = dataTmp2(:,:,:,2);
+data(:,:,:,5) = dataTmp2(:,:,:,5);
+data(:,:,:,6) = dataTmp2(:,:,:,8);
+data(:,:,:,7) = dataTmp2(:,:,:,3);  
+data(:,:,:,8) = dataTmp2(:,:,:,6);
+data(:,:,:,9) = dataTmp2(:,:,:,9);
+data(:,:,:,10) = dataTmp2(:,:,:,10);
+data(:,:,:,11) = dataTmp2(:,:,:,11);
+
+size(data)
+        
 
 % create a mask to speed up calc, thresholds data 300 in final volume
 mask=data(:,:,:,11);
