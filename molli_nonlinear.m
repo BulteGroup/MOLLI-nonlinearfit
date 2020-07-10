@@ -65,31 +65,11 @@ for i=1:nbti
     [image, info] = readDicomSeriesImage(dirName, partitions(i));
     metadata(i) = info{1,1}; % to get the dicom headers for every file (TI)
     
-    if isfield(metadata,'InversionTime')
-        tinv_acq(i)=metadata(i).InversionTime;  % builds a vector of all of the TI's
-    else
-        ttrig_acq(i) = metadata(i).TriggerTime;  % if no inversion time then use trigger time (will be close but wrong)
-        tinv_acq(i) = ttrig_acq(i);  
-    end
+    tinv_acq(i)=metadata(i).InversionTime;  % builds a vector of all of the TI's
 end
 
 % % need to reorder the TI's in tinv(i), 11 TI's in MOLLI
 [tinv,new_order] = sort(tinv_acq);
-
-% tinv(1) = tinv_acq(1);
-% tinv(2) = tinv_acq(4);
-% tinv(3) = tinv_acq(7);
-% tinv(4) = tinv_acq(2);
-% tinv(5) = tinv_acq(5);
-% tinv(6) = tinv_acq(8);
-% tinv(7) = tinv_acq(3);
-% tinv(8) = tinv_acq(6);
-% tinv(9) = tinv_acq(9);
-% tinv(10) = tinv_acq(10);
-% tinv(11) = tinv_acq(11);
-
-%cd(currpath)
-
 
 for k = 1:nbseries
     [image, info] = readDicomSeriesImage(dirName, partitions(k));
@@ -99,27 +79,18 @@ for k = 1:nbseries
 		dataTmp2(:,:,ss,k) = dataTmp(:,:,ss); 
     end
 end 
-
-
-data(:,:,:,1) = dataTmp2(:,:,:,1);
-data(:,:,:,2) = dataTmp2(:,:,:,4);
-data(:,:,:,3) = dataTmp2(:,:,:,7);
-data(:,:,:,4) = dataTmp2(:,:,:,2);
-data(:,:,:,5) = dataTmp2(:,:,:,5);
-data(:,:,:,6) = dataTmp2(:,:,:,8);
-data(:,:,:,7) = dataTmp2(:,:,:,3);  
-data(:,:,:,8) = dataTmp2(:,:,:,6);
-data(:,:,:,9) = dataTmp2(:,:,:,9);
-data(:,:,:,10) = dataTmp2(:,:,:,10);
-data(:,:,:,11) = dataTmp2(:,:,:,11);
+for j = 1:nbseries
+    ordernum=new_order(j)
+    data(:,:,:,j)= dataTmp2(:,:,:,ordernum);
+end
 
 size(data)
         
 
 % create a mask to speed up calc, thresholds data 300 in final volume
 mask=data(:,:,:,11);
-mask(le(mask,300))=0; % changed from 100 to 300 20190801 DB
-mask(ge(mask,300))=1;
+mask(le(mask,100))=0; % changed from 300 to 100 2020 July EB
+mask(ge(mask,100))=1;
 
 
 % initialise matrices 
