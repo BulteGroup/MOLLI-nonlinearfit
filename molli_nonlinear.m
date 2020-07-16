@@ -129,7 +129,7 @@ for i=1:nbvoxels
                 Tonestar =  coeffvals(3);
                 t1vec(i)= Tonestar*(coeffvals(2)/coeffvals(1)-1); % LL correction
 
-            if (isnan(t1vec(i)) || t1vec(i)<0 || isinf(t1vec(i) || t1vec(i)>8000)) % remove rubbish values, limit to 5sec max
+            if (isnan(t1vec(i)) || t1vec(i)<0 || isinf(t1vec(i)) || t1vec(i)>8000) % remove rubbish values, limit to 5sec max
                     t1vec(i)=0;
             end
     end
